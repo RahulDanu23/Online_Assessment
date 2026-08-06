@@ -1,17 +1,23 @@
 require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db');
-const router = require('./routes/authRoutes');
+const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const studentRoutes = require('./routes/studentRoutes');
 const app = express();
-
+const cors = require('cors');
 
 const PORT = 3000;
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
-app.use('/api/auth', router);
+app.use(cors());
 
-app.use("/", (req, res) => {
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/student', studentRoutes);
+
+app.get("/", (req, res) => {
   res.send("Server Working");
 })
 

@@ -78,7 +78,6 @@ const register = async(req, res) => {
       role : role || 'student'
     });
 
-    newUser.save();
     return res.status(201).json({
       message: "User registered successfully"
     })
