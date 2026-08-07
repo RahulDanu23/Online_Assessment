@@ -63,13 +63,12 @@ const assessmentSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // Pre-save hook to calculate total marks based on questions
-assessmentSchema.pre('save', function (next) {
+assessmentSchema.pre('save', function () {
   if (this.questions && this.questions.length > 0) {
     this.totalMarks = this.questions.reduce((total, q) => total + (q.marks || 1), 0);
   } else {
     this.totalMarks = 0;
   }
-  next();
 });
 
 module.exports = mongoose.model('Assessment', assessmentSchema);

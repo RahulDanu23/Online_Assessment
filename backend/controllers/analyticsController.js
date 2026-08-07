@@ -13,13 +13,16 @@ const getAnalytics = async (req, res) => {
     
     // Calculate passing rate
     const passedAttempts = await Attempt.countDocuments({ isPassed: true });
+    const failedAttempts = totalAttempts - passedAttempts;
     const passRate = totalAttempts > 0 ? Math.round((passedAttempts / totalAttempts) * 100) : 0;
 
     res.status(200).json({
       totalStudents,
       totalAssessments,
       totalAttempts,
-      passRate
+      passRate,
+      passedAttempts,
+      failedAttempts
     });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching analytics' });

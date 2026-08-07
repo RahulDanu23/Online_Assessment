@@ -66,7 +66,11 @@ const submitAttempt = async (req, res) => {
 const getStudentAttempts = async (req, res) => {
   try {
     const attempts = await Attempt.find({ student: req.user.id })
-      .populate('assessment', 'title totalMarks durationMinutes')
+      .populate({
+        path: 'assessment',
+        select: 'title totalMarks durationMinutes category',
+        populate: { path: 'category', select: 'name' }
+      })
       .sort({ createdAt: -1 });
     res.status(200).json(attempts);
   } catch (error) {
